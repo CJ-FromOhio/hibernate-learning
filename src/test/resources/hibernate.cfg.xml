@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+<!--    <property name="connection.url">jdbc:h2:mem:hezix</property>-->
+<!--    <property name="connection.username"/>-->
+<!--    <property name="connection.password"/>-->
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="show_sql">true</property>
+    <property name="format_sql">true</property>
+    <!-- DB schema will be updated if needed -->
+     <property name="hibernate.hbm2ddl.auto">update</property>
+
+    <mapping class="hezix.org.entity.User"/>
+    <mapping class="hezix.org.entity.Profile"/>
+    <mapping class="hezix.org.entity.Company"/>
+    <mapping class="hezix.org.entity.Chat"/>
+    <mapping class="hezix.org.entity.Payment"/>
+    <mapping class="hezix.org.entity.UserChat"/>
+    <mapping class="hezix.org.entity.Programmer"/>
+    <mapping class="hezix.org.entity.Manager"/>
+
+  </session-factory>
+</hibernate-configuration>
