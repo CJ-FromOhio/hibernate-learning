@@ -1,10 +1,8 @@
 package hezix.org.entity;
 
+import hezix.org.listener.UserChatListener;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -13,7 +11,9 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(callSuper=false)
 @Data
+@EntityListeners(UserChatListener.class)
 public class UserChat extends AuditableEntity<Long> {
 
     @Id

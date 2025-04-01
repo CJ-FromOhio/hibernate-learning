@@ -1,17 +1,12 @@
-package hezix.org.converter.dao;
+package hezix.org.dao;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import hezix.org.dto.CompanyDto;
 import hezix.org.entity.*;
 import jakarta.persistence.Tuple;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Predicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import org.hibernate.query.criteria.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

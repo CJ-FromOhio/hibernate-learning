@@ -1,18 +1,12 @@
 package hezix.org;
 
-import hezix.org.converter.util.HibernateUtil;
+import hezix.org.util.HibernateUtil;
 import hezix.org.entity.*;
 import hezix.org.util.HibernateTestUtil;
 import jakarta.persistence.FlushModeType;
-import jakarta.persistence.QueryHint;
 import lombok.Cleanup;
 import org.hibernate.Hibernate;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.Query;
 import org.junit.jupiter.api.Test;
-
-import java.time.Instant;
-import java.util.List;
 
 class HibernateRunnerTest {
 

@@ -1,13 +1,9 @@
 package hezix.org.util;
 
-import hezix.org.converter.util.HibernateUtil;
-import hezix.org.entity.User;
 import lombok.experimental.UtilityClass;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
-
-import static hezix.org.converter.util.HibernateUtil.buildConfiguration;
 
 @UtilityClass
 public class HibernateTestUtil {

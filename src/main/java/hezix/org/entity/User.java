@@ -1,24 +1,12 @@
 package hezix.org.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 
 
 import java.util.ArrayList;
@@ -28,11 +16,31 @@ import static javax.xml.stream.XMLStreamConstants.SPACE;
 
 @Data
 @Builder
+@FetchProfile(name = "withCompanyAndPayment",
+        fetchOverrides ={ @FetchProfile.FetchOverride(
+                entity = User.class, association = "company", mode = FetchMode.JOIN
+        ),
+        @FetchProfile.FetchOverride(
+                entity = User.class, association = "payments", mode = FetchMode.JOIN
+        )}
+)
+
+@NamedEntityGraph(
+        name = "WithCompanyAndChat",
+        attributeNodes = {
+                @NamedAttributeNode("company"),
+                @NamedAttributeNode(value = "userChats", subgraph = "chats")
+        },
+        subgraphs = {
+                @NamedSubgraph(name = "chats", attributeNodes =
+                        @NamedAttributeNode("chat"))
+        }
+)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @EqualsAndHashCode(of = "username")
-@ToString(exclude = {"company", "profile", "userChats"})
+@ToString(exclude = {"company", "userChats", "payments"})
 @Table(name = "users")
 //@Inheritance(strategy = InheritanceType.JOINED)
 @NamedQuery(name = "findUserByName", query = "select u from User u " +
@@ -59,16 +67,18 @@ public class User implements Comparable<User> , BaseEntity<Long> {
     @JoinColumn(name = "company_id")  // company_id
     private Company company;
 
-    @OneToOne(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private Profile profile;
+//    @OneToOne(mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    private Profile profile;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")// колонка в которую хотим присоединить поле чат
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)// колонка в которую хотим присоединить поле чат
     private List<UserChat> userChats = new ArrayList<>();
     @Builder.Default
-    @OneToMany(mappedBy="receiver")
+//    @BatchSize(size = 3)
+    @Fetch(FetchMode.SUBSELECT)
+    @OneToMany(mappedBy="receiver", fetch = FetchType.LAZY)
     private List<Payment> payments = new ArrayList<>();
 
     @Override

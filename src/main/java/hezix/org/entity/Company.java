@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SortComparator;
 import org.hibernate.annotations.SortNatural;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import java.util.*;
 
@@ -14,6 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString(exclude = "users")
 @EqualsAndHashCode(of = "name")
+@Audited
 public class Company {
 
     @Id
@@ -29,6 +32,7 @@ public class Company {
 //    @OrderBy("personalInfo.firstName")
     @OrderColumn(name = "id")
     @SortNatural
+    @NotAudited
     @MapKey(name = "username")
 //    @SortComparator()
     private Map<String, User> users = new TreeMap<>();
@@ -36,10 +40,11 @@ public class Company {
     @ElementCollection
     @CollectionTable(name = "company_locale", joinColumns = @JoinColumn(name = "company_id"))
     @Builder.Default
+    @NotAudited
 //    @AttributeOverride(name = "language", column = @Column(name = "lang"))
 //    private List<LocaleInfo> locale = new ArrayList<>();
     @MapKeyColumn(name = "lang")
-    private Map<String, String> locales = new HashMap();
+    private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
         users.put(user.getUsername(),user);

@@ -1,10 +1,7 @@
 package hezix.org.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@EqualsAndHashCode(callSuper=false)
 //@DiscriminatorValue("programmer")
 //@PrimaryKeyJoinColumn(name = "id")
 public class Programmer extends User {
